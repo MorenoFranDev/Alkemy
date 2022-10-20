@@ -1,8 +1,7 @@
 import  { DataTypes } from 'sequelize';
 import sequelize from '../connection';
-import Characters from './CharactersModel';
 
-const Movies = sequelize.define('movie',{
+const Movies = sequelize.define('Movie',{
     Img:{
         type: DataTypes.STRING
     },

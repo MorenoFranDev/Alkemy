@@ -1,7 +1,8 @@
 import Characters from "../models/CharactersModel";
+import Movies from "../models/MoviesModel";
 
 export const getCharacters = async (req, res) => {
-    const {name,age,movies} = req.query
+    const { name, age, movies } = req.query
     try {
         if (name != undefined) {
             const resp = await Characters.findAll({
@@ -15,11 +16,18 @@ export const getCharacters = async (req, res) => {
             res.status(200).json(resp)
         } else if (movies != undefined) {
             const resp = await Characters.findAll({
-                where: { Name: movies },
+                include:
+                {
+                    model: Movies, where: {
+                        ID: movies
+                    }
+                }
             });
             res.status(200).json(resp)
         } else {
-            const resp = await Characters.findAll({});
+            const resp = await Characters.findAll({
+                where: { ID: movies },
+            });
             res.status(200).json(resp)
         }
     } catch (error) {
@@ -42,8 +50,8 @@ export const postCharacters = async (req, res) => {
         });
         await insert.save();
         res.status(200).json({ msg: "insert successfully" });
-    } catch (error) { 
-        res.status(500).json({ msg: "Error in insert" });
+    } catch (error) {
+        res.status(500).json({ msg: error });
 
     }
 };

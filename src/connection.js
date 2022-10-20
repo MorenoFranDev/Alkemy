@@ -1,5 +1,5 @@
 import { Sequelize } from 'sequelize';
-const sequelize = new Sequelize('alkemy', 'root', '', {
+const sequelize = new Sequelize('alkemy', 'fran', '', {
     host: 'localhost',
     dialect: 'mysql'
 });

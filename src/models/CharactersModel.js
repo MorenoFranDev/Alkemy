@@ -30,7 +30,7 @@ const Characters = sequelize.define('Characters',{
     }
 },{timestamps: false})
 
-Characters.belongsToMany(Movies, { through: 'Movies/Character',timestamps:false})
+Characters.belongsToMany(Movies, { through: 'MoviesCharacters',timestamps:false})
 
 
 

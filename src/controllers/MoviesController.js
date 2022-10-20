@@ -3,26 +3,27 @@ import Movies from "../models/MoviesModel";
 export const getMovies = async (request, response) => {
     const { name, genre, order } = request.query;
 
-    if (name != undefined) {
-        const resp = await Movies.findAll({
-            where: { Name: name },
-        });
-        response.status(200).json(resp);
-    } else if (genre != undefined) {
-        const resp = await Movies.findAll({
-            where: { genre: genre },
-        });
-        response.status(200).json(resp);
-    } else if (order != undefined) {
-        const resp = await Movies.findAll({
-            where: { order: order },
-        });
-        response.status(200).json(resp);
-    } else {
-        const resp = await Movies.findAll({});
-        response.status(200).json(resp);
-    }
     try {
+        if (name != undefined) {
+            const resp = await Movies.findAll({
+                where: { Title: name },
+            });
+            response.status(200).json(resp);
+        } else if (genre != undefined) {
+            const resp = await Movies.findAll({
+                where: { GenderID: genre },
+            });
+            response.status(200).json(resp);
+        } else if (order != undefined) {
+            console.log(order)
+            const resp = await Movies.findAll({
+                order: [['ID', order]]
+            });
+            response.status(200).json(resp);
+        } else {
+            const resp = await Movies.findAll({});
+            response.status(200).json(resp);
+        }
     } catch (error) {
         response.status(404).json({
             "msg": "Not have movies",
@@ -53,19 +54,19 @@ export const putMovies = async (req, res) => {
     const { id } = req.params
     const { Img, Title, Creation, Qualificacion, GenderID, TypeID } = req.body
     try {
-        const result =await Movies.findByPk(id)
-        if(result){
+        const result = await Movies.findByPk(id)
+        if (result) {
             await result.update({
                 Img: Img,
                 Title: Title,
-                Creation: Creation, 
+                Creation: Creation,
                 Qualificacion: Qualificacion,
-                ID:id,
-                GenderID: GenderID, 
+                ID: id,
+                GenderID: GenderID,
                 TypeID: TypeID,
             })
             res.status(200).json({ "msg": "save successfully" })
-        }else{
+        } else {
             res.status(404).json({ "msg": "Not have element for id" })
 
         }
